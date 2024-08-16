@@ -1,0 +1,34 @@
+﻿@page "/account/create" 
+<EditForm Model="_model">
+    <MudGrid Class="justify-content-center">
+        <MudItem xs="12" sm="7">
+            <MudText Typo="Typo.h5" Class="mud-width-full py-4">Account Create Form</MudText>
+            <MudCard>
+                <MudCardContent>
+                    <MudSelect T="string" @bind-Value="_model.CustomerCode" Class="pt-3" Label="User Name" AnchorOrigin="Origin.BottomCenter" Clearable @onchange="(e) => OnCustomerSelected((string)e.Value)">
+                        @if (_userListResponseModel is not null && _userListResponseModel.Data is not null)
+                        {
+                            string[] userCodes = _accountListResponseModel!.Data.Select(x => x.CustomerCode).ToArray();
+                            @foreach (var item in _userListResponseModel.Data
+                           .Where(x => !userCodes.Contains(x.UserCode))
+                           .OrderBy(x => x.FullName))
+                            {
+                                <MudSelectItem Value="@item.UserCode">@item.FullName (@item.MobileNo)</MudSelectItem>
+                            }
+                        }
+                    </MudSelect>
+                    <MudTextField Label="Balance" Class="mt-3" @bind-Value="_model.Balance" For="@(() => _model.Balance)" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Href="/user-and-account/account" Color="Color.Warning">
+                        Cancel
+                    </MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-2" @onclick="Save">Create Account</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</EditForm> 
+@code {
+
+}

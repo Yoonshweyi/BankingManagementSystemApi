@@ -1,0 +1,33 @@
+﻿@page "/transaction/deposit"
+<EditForm Model="@_model">
+    <MudGrid Class="justify-content-center my-4">
+        <MudItem xs="12" sm="7">
+            <MudCard>
+                <MudCardContent>
+                    
+                    <MudSelect T="string" @bind-Value="_model.AccountNo" Class="pt-3" Label="Account Number" AnchorOrigin="Origin.BottomCenter" Clearable>
+                        @if (_accountListResponseModel is not null && _accountListResponseModel.Data is not null)
+                        {
+                            string[] userCodes = _accountListResponseModel!.Data.Select(x => x.CustomerCode).ToArray();
+                            @foreach (var item in _accountListResponseModel.Data
+                           .Where(x => !userCodes.Contains(x.AccountNo))
+                           .OrderBy(x => x.AccountId))
+                            {
+                                <MudSelectItem Value="@item.AccountNo">@item.AccountNo</MudSelectItem>
+                            }
+                        }
+                    </MudSelect>
+                   
+                    
+                    <MudTextField Label="Amount" Class="mt-3" @bind-Value="_model.Amount" For="@(() => _model.Amount)" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Href="/report/transaction-history" Color="Color.Warning">
+                        Cancel
+                    </MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-2" @onclick="OnValidSubmit">Deposit</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</EditForm>

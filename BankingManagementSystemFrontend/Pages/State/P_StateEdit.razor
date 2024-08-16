@@ -1,0 +1,25 @@
+﻿@page "/Setup/State/Edit/{stateCode}"
+@inject HttpClient HttpClient
+@if (_model != null)
+{
+
+    <div class="container-xxl flex-grow-1 container-p-y shadow-sm">
+        <h4 class="py-3 mb-4">
+            <span class="text-muted fw-light">New State</span>
+        </h4>
+
+        <div class="form-group mb-3">
+            <label for="exampleInputEmail1" class="mb-2">State Name</label>
+            <input type="text" class="form-control" @bind-value="_model.StateName">
+        </div>
+        <button type="submit" class="btn btn-success mb-2" @onclick="EditAsync">Update</button>
+    </div>
+
+}
+else
+{
+    <p>Loading...</p>
+}
+
+
+

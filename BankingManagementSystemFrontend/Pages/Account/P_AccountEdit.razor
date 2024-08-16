@@ -1,0 +1,26 @@
+﻿@page "/account/edit/{accountNo}"
+@inject HttpClient HttpClient
+
+@if (_model is not null)
+{
+    <EditForm Model="@_model">
+        <MudGrid Class="justify-content-center">
+            <MudText xs="12" sm="7">
+                <MudText Typo="Typo.h5" Class="mud-width-full py-4">Edit Information</MudText>
+                <MudCard>
+                    <MudCardContent>
+                       @* <MudTextField Label="CustomerCode" @bind-Value="_model.CustomerCode" For="@(()=>_model.CustomerCode)"/> *@
+                        <MudTextField Label="Balance" Class="mt-3" @bind-Value="_model.Balance" For="@(() => _model.Balance)" />
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Href="/user-and-account/account" Color="Color.Warning">
+                            Cancel
+                        </MudButton>
+                        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" @onclick="EditAsync"  Class="ml-2">Update</MudButton>
+
+                    </MudCardActions>
+                </MudCard>
+            </MudText>
+        </MudGrid>
+    </EditForm>
+}

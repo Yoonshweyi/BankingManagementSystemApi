@@ -1,0 +1,84 @@
+﻿@page "/user&Account/account"
+@{
+    int count = 0;
+}
+ @if (_model is not null && _model.Data is not null) 
+{
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="py-3 mb-4">
+            <span class="text-muted fw-light">Account List</span>
+        </h4>
+        <div class="card">
+            <div class="card-datatable table-responsive">
+                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                    <div class="card-header d-flex rounded-0 flex-wrap py-md-0 ">
+                        <div class="me-5 pe-5 p-3 d-flex gap-10">
+                            <div class="dt-buttons">
+                                <a Class="dt-button add-new btn btn-primary" href="/account/create">
+                                    <span>
+                                        <i class="mdi mdi-plus me-0 me-sm-1"></i>
+                                        <span class="d-none d-sm-inline-block">New Account</span>
+                                    </span>
+                                </a>
+                            </div>
+                            <div id="DataTables_Table_0_filter" class="dataTables_filter ">
+                                <label>
+                                    <input type="search" class="form-control ms-0" placeholder="Search Account" aria-controls="DataTables_Table_0">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Account No</th>
+                                <th scope="col">Customer Name</th>
+                                <th scope="col">Balance</th>
+                                <th scope="col">Actions</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in _model.Data)
+                            {
+                                var result = _user.Data.FirstOrDefault(x => x.UserCode.Equals(item.CustomerCode, StringComparison.OrdinalIgnoreCase));
+                                Console.WriteLine($"Checking item with CustomerCode: {item.CustomerCode}");
+
+                                if (result != null)
+                                {
+                                    <tr>
+                                        <td>@(++count)</td>
+                                        <td>@item.AccountNo</td>
+                                        <td>@result.FullName</td>
+                                        <td>@result.MobileNo</td>
+                                        <td>@item.Balance</td>
+   
+                                        <td>
+                                            <a class="btn btn-warning" href="@($"/account/edit/{item.AccountNo}")">edit</a>
+                                           @*  <a class="btn btn-danger">delete</a> *@
+                                            <button class="btn btn-danger" @onclick="() => DeleteAccountAsync(item.AccountNo)">delete</button>
+                                        </td>
+                                    </tr>
+                                }
+                                 
+                               
+                            }
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <div class="row mx-1 d-flex justify-content-end pt-3 pb-3">
+                <div class="col-sm-12 col-md-8 d-flex justify-content-end">
+                     <MudPagination SelectedChanged="PageChanged" ShowFirstButton="true" ShowLastButton="true" Count="@_model.pageSetting.PageCount" Class="mt-4" /> 
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>Loading...</p>
+}

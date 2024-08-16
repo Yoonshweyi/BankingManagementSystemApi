@@ -1,0 +1,77 @@
+﻿@page "/user/edit/{userCode}"
+@inject HttpClient HttpClient
+@if (_model is not null)
+{
+  
+<div class="container-xxl flex-grow-1 container-p-y shadow-sm">
+    <h4 class="py-3 mb-4">
+        <span class="text-muted fw-light">Registration Form</span>
+    </h4>
+
+    <div class="form-group mb-3">
+        <label for="exampleInputEmail1" class="mb-2">User Name</label>
+        <input type="text" class="form-control" @bind-value="_model.UserName">
+    </div>
+    <div class="form-group mb-3">
+        <label for="exampleInputEmail1" class="mb-2">Full Name</label>
+        <input type="text" class="form-control" @bind-value="_model.FullName">
+    </div>
+    <div class="form-group mb-3">
+        <label for="exampleInputEmail1" class="mb-2">Email</label>
+        <input type="text" class="form-control" @bind-value="_model.Email">
+    </div>
+    <div class="form-group mb-3">
+        <label for="exampleInputEmail1" class="mb-2">Mobile No</label>
+        <input type="text" class="form-control" @bind-value="_model.MobileNo">
+    </div>
+    <div class="form-group mb-3">
+        <label for="exampleInputEmail1" class="mb-2">Address</label>
+        <input type="text" class="form-control" @bind-value="_model.Address">
+    </div>
+    <div class="form-group mb-3">
+        <label for="exampleInputEmail1" class="mb-2">Nrc No</label>
+        <input type="text" class="form-control" @bind-value="_model.Nrc">
+    </div>
+
+    <label for="exampleInputEmail1" class="mb-2">StateName</label>
+     <select class="form-select mb-5" aria-label="Default select example" @onchange="(e) => ChangeState(((ChangeEventArgs)e).Value.ToString())">
+        @if (_stateListResponseModel?.Data != null)
+        {
+            <option value="">Choose State</option>
+            @foreach (var item in _stateListResponseModel.Data)
+            {
+                    <option value="@item.StateCode" selected="@(_model.StateCode == item.StateCode)">@item.StateName</option>
+            }
+        }
+        else
+        {
+            <option value="">No states available</option>
+        }
+
+    </select>
+ 
+
+    <label for="exampleInputEmail1" class="mb-4">TownShipName</label>
+        <select class="form-select mb-4" @bind="_model.TownshipCode" aria-label="Default select example">
+        @if (_townshipListResponseModel?.Data != null)
+        {
+            
+            @foreach (var item in _townshipListResponseModel.Data)
+            {
+                    <option value="@item.TownshipCode" selected="@(_model.TownshipCode == item.TownshipCode)">@item.TownshipName</option>
+            }
+        }
+        else
+        {
+            <option value="">Choose Township</option>
+        }
+
+    </select> 
+    <button type="submit" class="btn btn-warning mb-2">Cancel</button>
+    <button type="submit" class="btn btn-success mb-2" @onclick="EditAsync">Update</button>
+</div>
+
+}
+@code {
+
+}
